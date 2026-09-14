@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useControlTower } from '../../../../context/ControlTowerContext';
 import { PageHeader } from '../../../../components/ui/PageHeader';
 import { Button } from '../../../../components/ui/Button';
+import GoogleWorldMap from '../../../../components/ui/GoogleWorldMap';
+
 import {
   Truck,
   Sparkles,
@@ -96,7 +98,13 @@ export default function FleetRedeploymentPage() {
         </div>
       </div>
 
+      {/* Real Interactive Google GIS Map */}
+      <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800">
+        <GoogleWorldMap height="290px" center={[21.5, 71.5]} zoom={5} />
+      </div>
+
       {/* Primary Recommended Match: Truck T04 */}
+
       <div className="p-5 rounded-xl bg-gradient-to-br from-indigo-50/80 via-white to-blue-50/50 dark:from-[#0B1024] dark:via-[#090E1A] dark:to-[#0C132B] border-2 border-indigo-500 shadow-md space-y-4 text-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-indigo-100 dark:border-indigo-900/40">
           <div className="flex items-center gap-3">

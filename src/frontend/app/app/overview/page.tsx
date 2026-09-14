@@ -8,6 +8,8 @@ import { MetricCard } from '../../../components/ui/MetricCard';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 import { RiskBadge } from '../../../components/ui/RiskBadge';
 import { Button } from '../../../components/ui/Button';
+import GoogleWorldMap from '../../../components/ui/GoogleWorldMap';
+
 import {
   Package,
   AlertTriangle,
@@ -241,234 +243,163 @@ export default function OverviewPage() {
         </div>
       ) : (
         <>
-          {/* PRIMARY OPERATIONAL AREA: LEFT (Map & Health) + RIGHT (Critical Action Queue) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* LEFT / LARGE: Network Health + Interactive Map */}
-        <div className="lg:col-span-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B101D] shadow-sm p-4 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                Global Network Health & Corridor Visualization
-              </h2>
-            </div>
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-slate-400 font-mono text-[11px]">Selected Port:</span>
-              <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60">
-                {selectedNode}
-              </span>
-            </div>
-          </div>
-
-          {/* Interactive Network Corridor SVG Map */}
-          <div className="relative w-full h-[280px] sm:h-[320px] rounded-lg bg-slate-900/90 dark:bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center">
-            {/* SVG Lines and Nodes */}
-            <svg className="absolute inset-0 w-full h-full stroke-slate-700" strokeWidth="1.5">
-              {/* Background grid lines */}
-              <defs>
-                <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                  <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-
-              {/* Corridor lines */}
-              {/* Shanghai (65%, 45%) to JNPT Mumbai (38%, 55%) */}
-              <path d="M 650 140 Q 520 200 380 180" fill="none" stroke="#EF4444" strokeWidth="2.5" strokeDasharray="6 4" />
-              {/* Shanghai (65%, 45%) to Mundra (34%, 48%) - Bypass */}
-              <path d="M 650 140 Q 500 120 340 150" fill="none" stroke="#10B981" strokeWidth="2.5" />
-              {/* Mundra (34%, 48%) to Mumbai (38%, 55%) - Truck Highway */}
-              <path d="M 340 150 L 380 180" fill="none" stroke="#F59E0B" strokeWidth="2" strokeDasharray="4 4" />
-              {/* JNPT Mumbai to Dubai (25%, 40%) */}
-              <path d="M 380 180 L 250 130" fill="none" stroke="#3B82F6" strokeWidth="2" />
-              {/* Dubai to Rotterdam (15%, 25%) */}
-              <path d="M 250 130 L 150 80" fill="none" stroke="#3B82F6" strokeWidth="2" />
-            </svg>
-
-            {/* Interactive Pins */}
-            {/* JNPT Mumbai Pin */}
-            <button
-              onClick={() => setSelectedNode('JNPT Mumbai')}
-              className="absolute left-[38%] top-[55%] -translate-x-1/2 -translate-y-1/2 group z-10"
-            >
-              <div className="relative flex items-center justify-center">
-                <span className="absolute w-8 h-8 rounded-full bg-rose-500/30 animate-ping" />
-                <div className="w-5 h-5 rounded-full bg-rose-600 border-2 border-white flex items-center justify-center text-white text-[9px] font-bold shadow-md">
-                  !
+          {/* HERO OPERATIONAL SECTION: FULL-WIDTH BIG SCREEN GOOGLE GIS MAP */}
+          <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B101D] shadow-sm p-4 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4.5 h-4.5 text-indigo-600 dark:text-indigo-400" />
+                <div>
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                    Global Network Health & Interactive GIS Corridor Map
+                  </h2>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    Real-time global ocean corridors, port strikes, bypass routes, and idle fleet telemetry.
+                  </p>
                 </div>
               </div>
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[10px] px-2 py-0.5 rounded border border-rose-500 font-mono font-bold shadow-lg">
-                JNPT (STRIKE D001)
+              <div className="flex items-center gap-3 text-xs">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 font-mono text-[11px]">Inspecting Hub:</span>
+                  <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800">
+                    {selectedNode}
+                  </span>
+                </div>
+                <Link href="/app/routing" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline flex items-center gap-1">
+                  Routing Studio <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
-            </button>
+            </div>
 
-            {/* Mundra Port Pin (Bypass) */}
-            <button
-              onClick={() => setSelectedNode('Mundra Port')}
-              className="absolute left-[34%] top-[48%] -translate-x-1/2 -translate-y-1/2 group z-10"
-            >
-              <div className="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-white" />
-              </div>
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-emerald-400 text-[10px] px-2 py-0.5 rounded border border-emerald-500 font-mono font-bold shadow-lg">
-                Mundra T3 (BYPASS)
-              </div>
-            </button>
-
-            {/* Ahmedabad Truck Hub Pin */}
-            <button
-              onClick={() => setSelectedNode('Ahmedabad Fleet Hub')}
-              className="absolute left-[36%] top-[42%] -translate-x-1/2 -translate-y-1/2 group z-10"
-            >
-              <div className="w-3.5 h-3.5 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center shadow-md" />
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-amber-400 text-[9px] px-1.5 py-0.2 rounded border border-amber-500 font-mono">
-                Truck T04 (IDLE)
-              </div>
-            </button>
-
-            {/* Shanghai Pin */}
-            <button
-              onClick={() => setSelectedNode('Shanghai Terminal')}
-              className="absolute left-[65%] top-[45%] -translate-x-1/2 -translate-y-1/2 group z-10"
-            >
-              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-white" />
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-slate-200 text-[9px] px-1.5 py-0.2 rounded border border-slate-700 font-mono">
-                Shanghai (ORIGIN)
-              </div>
-            </button>
-
-            {/* Rotterdam Pin */}
-            <button
-              onClick={() => setSelectedNode('Rotterdam Port')}
-              className="absolute left-[15%] top-[25%] -translate-x-1/2 -translate-y-1/2 group z-10"
-            >
-              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-white" />
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-slate-200 text-[9px] px-1.5 py-0.2 rounded border border-slate-700 font-mono">
-                Rotterdam
-              </div>
-            </button>
-
-            {/* Overlay Map Summary Footer */}
-            <div className="absolute bottom-2 left-2 right-2 p-2 rounded bg-slate-900/85 backdrop-blur-md border border-slate-800 flex items-center justify-between text-[11px] text-slate-300">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                Active Diversion Route: JNPT → Mundra T3 (Saves 71h delay)
-              </span>
-              <Link href="/app/routing" className="text-indigo-400 font-semibold hover:underline">
-                Routing Studio →
-              </Link>
+            {/* Big Screen Google GIS World Map Container */}
+            <div className="relative w-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-lg">
+              <GoogleWorldMap
+                onNodeSelect={(nodeName) => setSelectedNode(nodeName)}
+                height="520px"
+                center={[23, 68]}
+                zoom={3}
+              />
             </div>
           </div>
-        </div>
 
-        {/* RIGHT: Critical Action Queue (Prioritized Operational Items) */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B101D] shadow-sm p-4 space-y-3.5">
-          <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-amber-500" />
-              <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                Critical Action Queue
-              </h2>
-            </div>
-            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60">
-              4 Prioritized Items
-            </span>
-          </div>
-
-          <div className="space-y-3 text-xs">
-            {/* 1. Critical Cold-Chain Incident */}
-            <div className="p-3 rounded-lg bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-mono font-bold text-[10px]">
-                  1. CRITICAL COLD-CHAIN
+          {/* SECONDARY OPERATIONAL AREA: Critical Action Queue (Left 2 Cols) + AI Executive Brief & Timeline (Right 1 Col) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {/* Critical Action Queue (Prioritized Operational Items) */}
+            <div className="lg:col-span-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B101D] shadow-sm p-4 space-y-3.5">
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-amber-500" />
+                  <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Critical Action Queue
+                  </h2>
+                </div>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60">
+                  4 Prioritized Items
                 </span>
-                <span className="font-mono text-rose-600 dark:text-rose-400 font-bold">9.7°C (47m)</span>
               </div>
-              <div className="font-bold text-slate-900 dark:text-white">Unit VAX-2045 (Shipment S101)</div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                Oncology mRNA Vaccines exceeding thermal threshold outside JNPT outer anchorage.
-              </p>
-              <div className="flex items-center justify-between pt-1 text-[11px]">
-                <span className="text-rose-700 dark:text-rose-400 font-semibold">$3.4M Batch Spoilage Risk</span>
-                <Link href="/app/cold-chain/VAX-2045">
-                  <Button variant="danger" size="xs">
-                    Deploy Dry-Ice Kit
-                  </Button>
-                </Link>
-              </div>
-            </div>
 
-            {/* 2. High-Impact Disruption */}
-            <div className="p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-mono font-bold text-[10px]">
-                  2. PORT STRIKE IMPACT
-                </span>
-                <span className="font-mono text-amber-700 dark:text-amber-400 font-bold">D001 • JNPT</span>
-              </div>
-              <div className="font-bold text-slate-900 dark:text-white">Mumbai Port Crane Walkout</div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                72-hour labor disruption immobilizing 18 inbound containers and feeder vessels.
-              </p>
-              <div className="flex items-center justify-between pt-1 text-[11px]">
-                <span className="text-amber-700 dark:text-amber-400 font-semibold">+77h Delay Saved by Bypass</span>
-                <Link href="/app/disruptions/D001">
-                  <Button variant="secondary" size="xs">
-                    Execute Reroute
-                  </Button>
-                </Link>
-              </div>
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {/* 1. Critical Cold-Chain Incident */}
+                <div className="p-3.5 rounded-lg bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 space-y-2 flex flex-col justify-between">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-mono font-bold text-[10px]">
+                        1. CRITICAL COLD-CHAIN
+                      </span>
+                      <span className="font-mono text-rose-600 dark:text-rose-400 font-bold">9.7°C (47m)</span>
+                    </div>
+                    <div className="font-bold text-slate-900 dark:text-white">Unit VAX-2045 (Shipment S101)</div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                      Oncology mRNA Vaccines exceeding thermal threshold outside JNPT outer anchorage.
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-rose-200/60 dark:border-rose-900/40 text-[11px]">
+                    <span className="text-rose-700 dark:text-rose-400 font-semibold">$3.4M Batch Spoilage Risk</span>
+                    <Link href="/app/cold-chain/VAX-2045">
+                      <Button variant="danger" size="xs">
+                        Deploy Dry-Ice Kit
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
 
-            {/* 3. High-Risk Shipment */}
-            <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono font-bold text-[10px]">
-                  3. SHIPMENT AT RISK
-                </span>
-                <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">S101 • 92 Risk</span>
-              </div>
-              <div className="font-bold text-slate-900 dark:text-white">Shipment S101 Biologics Cargo</div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                Shanghai → JNPT leg blocked. Alternate route via Mundra T3 calculated.
-              </p>
-              <div className="flex items-center justify-between pt-1 text-[11px]">
-                <span className="text-slate-600 dark:text-slate-400 font-mono">Cost: +$1,200 / TEU</span>
-                <Link href="/app/shipments/S101">
-                  <Button variant="secondary" size="xs">
-                    Inspect S101
-                  </Button>
-                </Link>
-              </div>
-            </div>
+                {/* 2. High-Impact Disruption */}
+                <div className="p-3.5 rounded-lg bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 space-y-2 flex flex-col justify-between">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-mono font-bold text-[10px]">
+                        2. PORT STRIKE IMPACT
+                      </span>
+                      <span className="font-mono text-amber-700 dark:text-amber-400 font-bold">D001 • JNPT</span>
+                    </div>
+                    <div className="font-bold text-slate-900 dark:text-white">Mumbai Port Crane Walkout</div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                      72-hour labor disruption immobilizing 18 inbound containers and feeder vessels.
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-amber-200/60 dark:border-amber-900/40 text-[11px]">
+                    <span className="text-amber-700 dark:text-amber-400 font-semibold">+77h Delay Saved by Bypass</span>
+                    <Link href="/app/disruptions/D001">
+                      <Button variant="secondary" size="xs">
+                        Execute Reroute
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
 
-            {/* 4. Fleet Redeployment Opportunity */}
-            <div className="p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/50 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono font-bold text-[10px]">
-                  4. ASSET REDEPLOYMENT
-                </span>
-                <span className="font-mono text-emerald-700 dark:text-emerald-400 font-bold">94% Match</span>
-              </div>
-              <div className="font-bold text-slate-900 dark:text-white">Truck T04 Idle in Ahmedabad</div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                18T Scania Reefer idle for 19.5 hours. Ready to stage at Mundra quay for S101.
-              </p>
-              <div className="flex items-center justify-between pt-1 text-[11px]">
-                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Zero Spoilage Transfer</span>
-                <Link href="/app/fleet/redeployment">
-                  <Button variant="primary" size="xs">
-                    Redeploy T04
-                  </Button>
-                </Link>
+                {/* 3. High-Risk Shipment */}
+                <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 flex flex-col justify-between">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-mono font-bold text-[10px]">
+                        3. SHIPMENT AT RISK
+                      </span>
+                      <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">S101 • 92 Risk</span>
+                    </div>
+                    <div className="font-bold text-slate-900 dark:text-white">Shipment S101 Biologics Cargo</div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                      Shanghai → JNPT leg blocked. Alternate route via Mundra T3 calculated.
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px]">
+                    <span className="text-slate-600 dark:text-slate-400 font-mono">Cost: +$1,200 / TEU</span>
+                    <Link href="/app/shipments/S101">
+                      <Button variant="secondary" size="xs">
+                        Inspect S101
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* 4. Fleet Redeployment Opportunity */}
+                <div className="p-3.5 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/50 space-y-2 flex flex-col justify-between">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono font-bold text-[10px]">
+                        4. ASSET REDEPLOYMENT
+                      </span>
+                      <span className="font-mono text-emerald-700 dark:text-emerald-400 font-bold">94% Match</span>
+                    </div>
+                    <div className="font-bold text-slate-900 dark:text-white">Truck T04 Idle in Ahmedabad</div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                      18T Scania Reefer idle for 19.5 hours. Ready to stage at Mundra quay for S101.
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-emerald-200/60 dark:border-emerald-900/40 text-[11px]">
+                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Zero Spoilage Transfer</span>
+                    <Link href="/app/fleet/redeployment">
+                      <Button variant="primary" size="xs">
+                        Redeploy T04
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* SECTION: AI BRIEF & OPERATIONAL TIMELINE */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* SECTION: AI BRIEF & OPERATIONAL TIMELINE */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
         {/* AI Brief (Concise operational summary) */}
         <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50/80 via-white to-blue-50/50 dark:from-[#0B1024] dark:via-[#090E1A] dark:to-[#0C132B] border border-indigo-200 dark:border-indigo-900/60 shadow-sm space-y-3">
           <div className="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-900/40 pb-2">

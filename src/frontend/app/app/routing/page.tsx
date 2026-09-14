@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useControlTower } from '../../../context/ControlTowerContext';
 import { PageHeader } from '../../../components/ui/PageHeader';
 import { Button } from '../../../components/ui/Button';
+import GoogleWorldMap from '../../../components/ui/GoogleWorldMap';
+
 import { RiskBadge } from '../../../components/ui/RiskBadge';
 import {
   Compass,
@@ -196,8 +198,14 @@ export default function RoutingCenterPage() {
           </span>
         </div>
 
-        {/* Node Diagram */}
+        {/* Interactive Google GIS Map */}
+        <div className="rounded-xl overflow-hidden mb-4">
+          <GoogleWorldMap height="300px" center={[22.5, 71.5]} zoom={4} />
+        </div>
+
+        {/* Sequential Node Diagram */}
         <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 overflow-x-auto">
+
           <div className="flex items-center justify-between min-w-[650px] gap-2 py-4 px-2">
             {selectedRoute.nodes.map((node, idx) => {
               const isDisrupted = node.status === 'disrupted';

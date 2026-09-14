@@ -6,6 +6,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useControlTower } from '../../../../context/ControlTowerContext';
 import { PageHeader } from '../../../../components/ui/PageHeader';
 import { StatusBadge } from '../../../../components/ui/StatusBadge';
+import GoogleWorldMap from '../../../../components/ui/GoogleWorldMap';
+
 import {
   Package,
   Compass,
@@ -315,7 +317,13 @@ export default function ShipmentDetailPage() {
             </span>
           </div>
 
+          {/* Real Interactive Google GIS Map */}
+          <div className="rounded-xl overflow-hidden my-3">
+            <GoogleWorldMap height="250px" center={[22, 74]} zoom={4} />
+          </div>
+
           <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+
             {shipment.checkpoints.map((cp, idx) => {
               let dotClass = 'bg-slate-400 border-slate-200 dark:border-slate-800';
               if (cp.status === 'completed') dotClass = 'bg-emerald-500 border-emerald-900';
