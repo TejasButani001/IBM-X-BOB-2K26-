@@ -132,16 +132,18 @@ export interface AlternativeRoute {
   routeCheckpoints: string[];
 }
 
+export type NotificationSeverity = 'Critical' | 'High' | 'Warning' | 'Informational' | 'critical' | 'major' | 'info' | 'warning' | 'healthy';
+
 export interface AlertItem {
   id: string;
   title: string;
   category: 'Disruption' | 'Shipment' | 'Fleet' | 'Cold-Chain' | 'System';
-  severity: SeverityLevel;
+  severity: NotificationSeverity;
   timestamp: string;
   entityId: string;
   entityType: 'disruption' | 'shipment' | 'fleet' | 'cold-chain';
   description: string;
-  status: 'Unread' | 'Acknowledged' | 'Resolved';
+  status: 'Unread' | 'Acknowledged' | 'Resolved' | 'Dismissed';
 }
 
 export interface ActionPlanItem {

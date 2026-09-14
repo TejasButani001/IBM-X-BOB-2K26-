@@ -35,6 +35,13 @@ interface ControlTowerContextType {
   resolveDisruption: (disruptionId: string) => void;
   resetToBaseline: () => void;
   
+  // Alert & Notification Actions
+  markAlertRead: (id: string) => void;
+  markAllAlertsRead: () => void;
+  acknowledgeAlert: (id: string) => void;
+  resolveAlert: (id: string) => void;
+  dismissAlert: (id: string) => void;
+  
   // KPI Metrics
   metrics: {
     totalShipments: number;
@@ -421,6 +428,37 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
     );
   };
 
+  // Action: Notification Management
+  const markAlertRead = (id: string) => {
+    setAlerts((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status: 'Acknowledged' } : a))
+    );
+  };
+
+  const markAllAlertsRead = () => {
+    setAlerts((prev) =>
+      prev.map((a) => (a.status === 'Unread' ? { ...a, status: 'Acknowledged' } : a))
+    );
+  };
+
+  const acknowledgeAlert = (id: string) => {
+    setAlerts((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status: 'Acknowledged' } : a))
+    );
+  };
+
+  const resolveAlert = (id: string) => {
+    setAlerts((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status: 'Resolved' } : a))
+    );
+  };
+
+  const dismissAlert = (id: string) => {
+    setAlerts((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status: 'Dismissed' } : a))
+    );
+  };
+
   // Action: Reset to Baseline
   const resetToBaseline = () => {
     setDisruptions(initialDisruptions);
@@ -482,6 +520,11 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
         approveAllImmediateActions,
         resolveDisruption,
         resetToBaseline,
+        markAlertRead,
+        markAllAlertsRead,
+        acknowledgeAlert,
+        resolveAlert,
+        dismissAlert,
         metrics: {
           totalShipments,
           atRiskShipments,

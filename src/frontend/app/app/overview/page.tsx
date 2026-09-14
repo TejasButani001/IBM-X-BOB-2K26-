@@ -88,6 +88,9 @@ export default function OverviewPage() {
     }
   }, [isGeneratingPlan, planProgressStep, workflowSteps.length]);
 
+  // View mode state: Operator View vs Executive View
+  const [viewMode, setViewMode] = useState<'operator' | 'executive'>('operator');
+
   return (
     <div className="space-y-6">
       {/* TOP: Greeting & Major CTA */}
@@ -107,7 +110,31 @@ export default function OverviewPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Segmented Executive vs Operator View Selector */}
+          <div className="inline-flex items-center p-1 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs">
+            <button
+              onClick={() => setViewMode('operator')}
+              className={`px-3 py-1 rounded-md font-semibold transition-all cursor-pointer ${
+                viewMode === 'operator'
+                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Operator View
+            </button>
+            <button
+              onClick={() => setViewMode('executive')}
+              className={`px-3 py-1 rounded-md font-semibold transition-all cursor-pointer ${
+                viewMode === 'executive'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Executive View
+            </button>
+          </div>
+
           <Button
             variant="ai"
             size="md"
@@ -166,7 +193,55 @@ export default function OverviewPage() {
         />
       </div>
 
-      {/* PRIMARY OPERATIONAL AREA: LEFT (Map & Health) + RIGHT (Critical Action Queue) */}
+      {/* EXECUTIVE VIEW CONDITIONAL PANEL */}
+      {viewMode === 'executive' ? (
+        <div className="p-6 rounded-2xl bg-[#090E1A] border border-indigo-900/60 shadow-2xl space-y-6 text-xs text-white">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-indigo-400" />
+              <h2 className="text-lg font-bold text-white">FluxChain AI Executive Control Tower Brief</h2>
+            </div>
+            <span className="font-mono text-xs text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded border border-emerald-800/40">
+              SLA Compliance: {metrics.onTimePerformancePercent}%
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <span className="text-slate-400 text-[10px] uppercase font-mono font-bold">Network Risk Score</span>
+              <div className="text-2xl font-bold font-mono text-rose-400">87 / 100</div>
+              <div className="text-[11px] text-slate-400">JNPT Strike Impact</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <span className="text-slate-400 text-[10px] uppercase font-mono font-bold">Active Disruptions</span>
+              <div className="text-2xl font-bold font-mono text-amber-400">{metrics.activeDisruptions} Major</div>
+              <div className="text-[11px] text-slate-400">D001 JNPT Strike</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <span className="text-slate-400 text-[10px] uppercase font-mono font-bold">Fleet Utilisation</span>
+              <div className="text-2xl font-bold font-mono text-indigo-400">{metrics.fleetUtilisationPercent}%</div>
+              <div className="text-[11px] text-slate-400">5 Idle Units (T04 Ready)</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <span className="text-slate-400 text-[10px] uppercase font-mono font-bold">Cold-Chain Status</span>
+              <div className="text-2xl font-bold font-mono text-orange-400">1 Excursion</div>
+              <div className="text-[11px] text-rose-400">VAX-2045 (+10.0°C Peak)</div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-800/40 space-y-2">
+            <h3 className="font-bold text-white text-sm">Operational Impact Summary</h3>
+            <p className="text-slate-300 leading-relaxed">
+              JNPT dockworkers strike walkout (D001) affects 18 inbound containers valued at $12.4M. Autonomous rerouting of S101 via Mundra Rail Corridor recovers 71 hours of delay and mobilizes idle Truck T04 for zero-spoilage biologics delivery.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* PRIMARY OPERATIONAL AREA: LEFT (Map & Health) + RIGHT (Critical Action Queue) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* LEFT / LARGE: Network Health + Interactive Map */}
         <div className="lg:col-span-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B101D] shadow-sm p-4 space-y-4">
@@ -637,6 +712,8 @@ export default function OverviewPage() {
           </div>
         </div>
       </div>
+      </>
+      )}
 
       {/* AI WORKFLOW MODAL: "Generate Response Plan" */}
       {isGeneratingPlan && (

@@ -48,7 +48,7 @@ export default function LandingPage() {
 
             {/* Subheadline */}
             <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
-              Real-time port strike mitigation, multimodal bypass routing, kinetic cold-chain excursion protection, and operator-authorized autonomous dispatch.
+              One AI control tower for shipment impact, fleet capacity, route resilience, and cold-chain protection.
             </p>
 
             {/* CTA Buttons */}
