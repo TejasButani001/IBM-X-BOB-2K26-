@@ -1,79 +1,69 @@
-# Setup Guide
+# Setup Guide — FluxChain AI Control Tower
 
-> **This file is read by the automated evaluation pipeline. Be precise and complete.**
+> **This file provides exact, reproducible steps for hackathon judges and evaluators to run the application.**
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-- [ ] [e.g., Python 3.11+]
-- [ ] [e.g., Node.js 18+]
-- [ ] [e.g., Docker Desktop]
-- [ ] [e.g., An IBM Cloud account with watsonx.ai access]
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and fill in the values:
-
-```bash
-cp .env.example .env
-```
-
-| Variable | Description | Required |
-|---|---|---|
-| `WATSONX_API_KEY` | Your IBM watsonx.ai API key | Yes |
-| `WATSONX_PROJECT_ID` | Your watsonx.ai project ID | Yes |
-| `DATABASE_URL` | PostgreSQL connection string | Yes |
-| `SLACK_WEBHOOK_URL` | Slack webhook for alerts | No |
+- Node.js 18+ (tested on Node.js v24.18.0)
+- npm 9+ (tested on npm 11.10.1)
+- Modern web browser (Chrome, Edge, Firefox, Safari)
 
 ## Installation
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/[your-org]/[your-repo].git
-cd [your-repo]
+git clone https://github.com/TejasButani001/IBM-X-BOB-2K26-.git
+cd IBM-X-BOB-2K26-
 
-# 2. Install backend dependencies
-[your command — e.g.: pip install -r requirements.txt]
+# 2. Navigate to the frontend directory
+cd src/frontend
 
-# 3. Install frontend dependencies (if applicable)
-[your command — e.g.: cd frontend && npm install]
-
-# 4. Set up the database (if applicable)
-[your command — e.g.: python manage.py migrate]
+# 3. Install dependencies
+npm install
 ```
 
-## Running the Application
+## Running the Application Locally
 
 ```bash
-# Start the backend
-[your command — e.g.: uvicorn app.main:app --reload]
-
-# Start the frontend (in a separate terminal, if applicable)
-[your command — e.g.: cd frontend && npm run dev]
+# Inside src/frontend, start the development server
+npm run dev
 ```
 
-The application will be available at: `http://localhost:[PORT]`
+Open your browser and navigate to:
+**[http://localhost:3000](http://localhost:3000)**
 
-## Running Tests
+## Production Build Verification
 
 ```bash
-[your test command — e.g.: pytest tests/ -v]
+# Build the production bundle
+npm run build
+
+# Start the production server
+npm start
 ```
 
-## Quick Demo (Optional)
+## Key Evaluation Routes
 
-If you have a demo script or sample data to showcase the project quickly:
-
-```bash
-[e.g.: python demo/seed_demo_data.py]
-[e.g.: open http://localhost:8000/demo]
-```
+| Route | Purpose | Key Highlights |
+|---|---|---|
+| `/` | Public SaaS Landing Page | Product overview, live interactive preview, ROI |
+| `/demo` | Guided Demo Walkthrough | 20-step hackathon demo flow |
+| `/login` | Enterprise Sign In | Instant demo 1-click bypass button |
+| `/app/overview` | Main Control Tower | 6 KPI cards, active disruptions, critical shipments |
+| `/app/disruptions/D001` | Mumbai Port Strike Detail | 18 affected shipments, 5-step AI response plan |
+| `/app/shipments/S101` | High-Risk Shipment Detail | Checkpoint timeline, cold-chain correlation |
+| `/app/routing` | AI Multimodal Routing | Mundra Port bypass vs Hazira and Pipavav |
+| `/app/fleet/redeployment` | AI Redeployment Matcher | Truck T04 in Ahmedabad 94% corridor match |
+| `/app/cold-chain/VAX-2045` | Kinetic Telemetry Detail | Time-series chart, Arrhenius degradation window |
+| `/app/copilot` | IBM Bob AI Operations Copilot | Grounded operational chat with structured triage |
+| `/app/action-center` | Centralized Action Board | 1-click "Approve All Immediate Actions" |
+| `/app/simulations` | What-If Sandbox | 24h / 48h / 72h duration slider |
 
 ## Troubleshooting
 
-| Issue | Solution |
+| Issue | Resolution |
 |---|---|
-| [e.g., `ModuleNotFoundError`] | [e.g., Run `pip install -r requirements.txt` again] |
-| [e.g., Database connection refused] | [e.g., Ensure PostgreSQL is running: `docker compose up db`] |
-| [e.g., watsonx.ai 401 error] | [e.g., Check `WATSONX_API_KEY` in your `.env` file] |
+| Port 3000 in use | Run `npm run dev -- -p 3001` to start on port 3001 |
+| Missing node_modules | Ensure you ran `npm install` inside `src/frontend/` |

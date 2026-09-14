@@ -1,47 +1,82 @@
-# Source Code
+# FluxChain AI — Source Code Architecture
 
-Place all your project's source code in this folder.
+All application source code is organized inside `src/`.
 
-## Structure Guidelines
+## Directory Layout
 
-Organize your code logically. Here are common patterns — use whatever fits
-your project:
-
-### Web Application
 ```
 src/
-  backend/        ← API server code
-  frontend/       ← UI code
-  shared/         ← Shared utilities/types
+├── frontend/
+│   ├── app/                                 # Next.js App Router
+│   │   ├── (marketing)/                     # Public SaaS website
+│   │   │   ├── page.tsx                     # Landing page with interactive hero & preview
+│   │   │   ├── features/                    # Technical capability breakdown
+│   │   │   ├── solutions/                   # Industry solutions matrix
+│   │   │   ├── how-it-works/                # 5-step operational workflow
+│   │   │   ├── platform/                    # Control tower pillars
+│   │   │   ├── use-cases/                   # Real-world scenarios & ROI
+│   │   │   ├── pricing/                     # Predictable enterprise tiering
+│   │   │   ├── about/                       # Mission & safety principles
+│   │   │   ├── contact/                     # Enterprise pilot request
+│   │   │   └── demo/                        # 20-step hackathon demo walkthrough
+│   │   ├── login/                           # Enterprise SSO & credentials sign-in
+│   │   ├── signup/                          # Organization registration
+│   │   ├── forgot-password/                 # Credential recovery
+│   │   ├── onboarding/                      # 4-step configuration wizard
+│   │   └── app/                             # Authenticated Control Tower
+│   │       ├── layout.tsx                   # Main app shell (Sidebar, Topbar, Demo bar)
+│   │       ├── overview/                    # Executive operational dashboard (6 KPIs)
+│   │       ├── disruptions/                 # Disruption Center & [id] detail
+│   │       ├── shipments/                   # Shipment Registry & [id] detail
+│   │       ├── routing/                     # AI Multimodal Routing & [id] detail
+│   │       ├── fleet/                       # Fleet utilisation, assets, & redeployment
+│   │       ├── cold-chain/                  # Kinetic sensor tracking & [id] detail
+│   │       ├── alerts/                      # Prioritized multi-channel alert desk
+│   │       ├── copilot/                     # Grounded IBM Bob AI Operations Copilot
+│   │       ├── action-center/               # 1-click execution & approval board
+│   │       ├── analytics/                   # Performance & delay distributions
+│   │       ├── simulations/                 # What-if 24h/48h/72h sandbox
+│   │       ├── reports/                     # Audit-ready executive report generator
+│   │       ├── integrations/                # IBM watsonx, Instana, AIS, & IoT feeds
+│   │       └── settings/                    # Rule thresholds & AI confidence gates
+│   │
+│   ├── components/                          # Reusable UI & layout design system
+│   │   ├── ui/                              # Badges, metric cards, command palette
+│   │   ├── layout/                          # AppShell, Sidebar, Topbar
+│   │   └── landing/                         # MarketingNav, MarketingFooter
+│   │
+│   ├── context/
+│   │   └── ControlTowerContext.tsx          # Global reactive state & demo cascade engine
+│   │
+│   ├── data/
+│   │   └── mockData.ts                      # Relational datasets (50+ shipments, fleet, D001)
+│   │
+│   ├── services/
+│   │   └── ai/
+│   │       └── bobClient.ts                 # IBM Bob AI / watsonx Granite 3.0 abstraction
+│   │
+│   └── types/
+│       └── index.ts                         # Domain TypeScript interfaces
+│
+├── .env.example                             # Environment variable template
+└── README.md                                # Source code layout documentation
 ```
 
-### Data / AI Project
+## Running the Application Locally
+
+```bash
+# Navigate to frontend directory
+cd src/frontend
+
+# Install dependencies (already installed)
+npm install
+
+# Start local development server
+npm run dev
+
+# Or build for production
+npm run build
+npm start
 ```
-src/
-  data/           ← Data ingestion / preprocessing
-  models/         ← ML model code
-  api/            ← Serving layer
-  notebooks/      ← Jupyter notebooks (exploration)
-```
 
-### CLI / Script-based Tool
-```
-src/
-  cli/            ← CLI entry points
-  lib/            ← Core logic
-  utils/          ← Helpers
-```
-
-## Important Files to Include
-
-- `requirements.txt` or `package.json` — dependency manifest
-- `.env.example` — template for environment variables (NEVER commit `.env`)
-- Any database migration files
-- Configuration files
-
-## What NOT to Include in src/
-
-- `.env` files with real secrets
-- Large binary files (use Git LFS or link externally)
-- `node_modules/` or `venv/` (these are in `.gitignore`)
-- Build artifacts (`dist/`, `build/`, `__pycache__/`)
+Open [http://localhost:3000](http://localhost:3000) to view the application.
