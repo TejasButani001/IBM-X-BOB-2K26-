@@ -24,6 +24,8 @@ interface ControlTowerContextType {
   // Demo State & Scenarios
   demoScenario: string;
   isDemoActive: boolean;
+  strikeDurationHours: number;
+  setStrikeDurationHours: (hours: number) => void;
   triggerMumbaiStrike: () => void;
   triggerColdChainExcursion: () => void;
   rerouteShipment: (shipmentId: string, routeId: string) => void;
@@ -61,6 +63,7 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
   const [alternativeRoutes] = useState<AlternativeRoute[]>(alternativeRoutesForS101);
   const [demoScenario, setDemoScenario] = useState<string>('mumbai-strike');
   const [isDemoActive, setIsDemoActive] = useState<boolean>(true);
+  const [strikeDurationHours, setStrikeDurationHoursState] = useState<number>(72);
 
   // Keyboard shortcut Ctrl/Cmd + K
   useEffect(() => {
@@ -86,6 +89,41 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  // Duration toggle handler (24h -> 48h -> 72h)
+  const setStrikeDurationHours = (hours: number) => {
+    setStrikeDurationHoursState(hours);
+    const delayMultiplier = hours === 24 ? 26 : hours === 48 ? 48 : 77;
+    const riskScoreValue = hours === 24 ? 74 : hours === 48 ? 86 : 94;
+
+    setDisruptions((prev) =>
+      prev.map((d) =>
+        d.id === 'D001'
+          ? {
+              ...d,
+              cascadeRiskScore: riskScoreValue,
+              description: `ACTIVE DEMO: Unannounced ${hours}-hour dockworkers industrial action halting crane operations at Nhava Sheva. 18 vessels anchored offshore.`,
+            }
+          : d
+      )
+    );
+
+    setShipments((prev) =>
+      prev.map((s) => {
+        if (s.id === 'S101') {
+          return {
+            ...s,
+            delayHours: delayMultiplier,
+            riskScore: riskScoreValue,
+          };
+        }
+        if (s.id === 'S103') {
+          return { ...s, delayHours: Math.round(delayMultiplier * 0.9), riskScore: Math.round(riskScoreValue * 0.9) };
+        }
+        return s;
+      })
+    );
   };
 
   // Demo Trigger: Simulate Mumbai Port Strike (Cascading Impact)
@@ -392,6 +430,7 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
     setAlerts(initialAlerts);
     setActionPlan(initialActionPlan);
     setDemoScenario('mumbai-strike');
+    setStrikeDurationHoursState(72);
   };
 
   // Compute Live High-Density KPI Metrics
@@ -433,6 +472,8 @@ export function ControlTowerProvider({ children }: { children: React.ReactNode }
         setIsMobileNavOpen,
         demoScenario,
         isDemoActive,
+        strikeDurationHours,
+        setStrikeDurationHours,
         triggerMumbaiStrike,
         triggerColdChainExcursion,
         rerouteShipment,
